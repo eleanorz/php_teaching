@@ -29,4 +29,12 @@
 		color:".$h1.";
 	}";
 
+	echo "
+	img{
+		width = 200 px;
+		height= 80 px;
+		border = 3 px solid black;
+	}
+	";
+
  ?>

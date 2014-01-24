@@ -12,7 +12,9 @@
 
 		<p>
 			I am in a paragraph now
-		</p>	
+		</p>
+
+		<img src="createimg.php" alt="here is a picture that php made" >
 	</body>
 </html>
 
