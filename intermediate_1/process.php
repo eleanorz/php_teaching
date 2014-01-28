@@ -65,23 +65,6 @@
 		die();
 	}
 
-
-	// if (!isset($_SESSION['sum']) )
-	// {
-	// 	$temp = 10;
-	// 	$_SESSION['sum'] = $temp;
-	// 	echo "I just started getting sum to work";
-
-	// 	echo "now let's see what happens after setting session to zero";
-
-	// 	var_dump($_SESSION);
-	// }
-	// else
-	// {
-	// 	echo "sum already exists, now I am setting it to be +10";
-	// 	$_SESSION['sum'] = $_SESSION['sum']+10;
-	// }
-
 	header("Location: ninja_gold.php")
 
  ?>

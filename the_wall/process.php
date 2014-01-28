@@ -6,49 +6,52 @@
 
 	if (isset($_POST['action']) and $_POST['action'] == 'register')
 	{
-		$_SESSION['function'] = 'registering'; //adjusts greeting on success page
-		$email= $_POST['email'];
-		$confirm= $_POST['confirm'];
-		$password = $_POST['password'];
+		//adjusts greeting on success page
+		$_SESSION['function'] = 'registering'; 
 
-		//IS THE PASSWORD BLANK?
-		if (empty($password))
+		//checks whether any of the fields are empty
+		foreach ($_POST as $name => $value)
 		{
-			$error = 'Password is blank';
-			array_push($_SESSION['errors'], $error);
+			if (empty($value))
+			{
+				$_SESSION['errors'][$name] = "Sorry, ".$name." cannot be blank";
+			}
+			else
+			{
+				switch ($name)
+				{
+					case 'email':
+						if (!filter_var($value, FILTER_VALIDATE_EMAIL))
+						{
+							$_SESSION['errors'][$name] = $name." is not a valid email";
+						}
+					break;
+					case 'password':
+						if ($value != ($_POST['confirm']) )
+						{
+							$_SESSION['errors'][$name] = "passwords do not match";
+						}
+						if (strlen($value) < 6)
+						{
+							array_push($_SESSION['errors'], "password isn't long enough");
+						}
+					break;
+					case 
+				}
+			}
 		}
+
 		
 		//DOES USER ALREADY EXIST?
-		$query4 = "SELECT email from users WHERE email='".$email."'";
+		$query4 = "SELECT email from users WHERE email='".$_POST['email']."'";
 		$redundant = fetch_record($query4);
-		if (empty($redundant))
-		{}
-		else
+		if (!empty($redundant))
 		{
 			$error = "Username already exists";
 			array_push($_SESSION['errors'], $error);
 		}
 
-		//DO PASSWORDS MATCH?
-		if ($confirm != $password)
-		{
-			$error = "the passwords do not match";
-			array_push($_SESSION['errors'], $error);
-		}
 
-		// IS THERE AN AT SIGN?
-		if (strpos($email,'@') == FALSE)
-		{
-			$error = "you do NOT have an at sign in your email";
-			array_push($_SESSION['errors'], $error);
-		}
-		
-		//IS THERE A PERIOD?
-		if (strpos($email, '.') == FALSE)
-		{
-			$error = 'you do NOT have a period in your email address';
-			array_push($_SESSION['errors'], $error);
-		}
 
 		//FORMAT IS CLEAN:
 		if (empty($_SESSION['errors']))
@@ -84,8 +87,9 @@
 	{
 		//GRAB POST Variables
 		$_SESSION['function'] = 'login';
+
+		$password = $_POST['email'];
 		$email = $_POST['email'];
-		$password = $_POST['password'];
 
 		$query = "SELECT * from users WHERE email = '".$email."' ";
 		$user_record = fetch_record($query);
@@ -94,11 +98,7 @@
 		if (isset($user_record) )
 		{			
 			//IS THE PASSWORD CORRECT?
-			if ($user_record['password'] == $password)
-			{
-				//PASSWORD GOOD
-			}
-			else
+			if ($user_record['password'] != $password)
 			{
 				$error = "Password isn't valid, please re-enter";
 				array_push($errors, $error);
@@ -116,7 +116,7 @@
 		}
 		else
 		{
-			header('Location: success.php');
+			header('Location: home.php');
 		}
 	}
 
