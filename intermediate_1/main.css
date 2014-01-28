@@ -1,0 +1,20 @@
+*{
+	background-color: gold;
+}
+
+.bldg
+{	
+	float: left;
+	width: 200px;
+	height: 200px;
+	border: 3px solid grey;
+}
+
+#results
+{
+	clear: both;
+	width: 600px;
+	height: auto;
+	padding: 15px;
+	color: purple;
+}
