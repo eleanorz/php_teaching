@@ -9,13 +9,14 @@
 		//adjusts greeting on success page
 		$_SESSION['function'] = 'registering'; 
 
-		//checks whether any of the fields are empty
 		foreach ($_POST as $name => $value)
 		{
+			//checks whether any of the fields are empty
 			if (empty($value))
 			{
 				$_SESSION['errors'][$name] = "Sorry, ".$name." cannot be blank";
 			}
+			//checks other filters for email/password format
 			else
 			{
 				switch ($name)
@@ -36,11 +37,9 @@
 							array_push($_SESSION['errors'], "password isn't long enough");
 						}
 					break;
-					case 
 				}
 			}
 		}
-
 		
 		//DOES USER ALREADY EXIST?
 		$query4 = "SELECT email from users WHERE email='".$_POST['email']."'";
@@ -51,43 +50,29 @@
 			array_push($_SESSION['errors'], $error);
 		}
 
-
-
 		//FORMAT IS CLEAN:
 		if (empty($_SESSION['errors']))
 		{
-			$query2 = "SELECT email FROM users WHERE email='".$email."' ";
-
-			$result = fetch_record($query2);
-			
-			//email IS NEW
-			if (empty($result) )
-			{
-				$query3 = "INSERT into users (email, password, created_at) VALUES ('".$email."', 'password', NOW())";
-				run_mysql_query($query3);
-				echo "new email added";
-			}
-			else
-			{
-				echo "user already exists";
-			}
+			//inside success loop
+			$query3 = "INSERT into users (email, password, created_at) VALUES ('".$email."', 'password', NOW())";
+			run_mysql_query($query3);
+			echo "new email added";
 		
-			echo "<h1>I am inside the success loop </h1>";
-			echo $query3;
-			header('Location: success.php');
+			header('Location: home.php');
 		}
-
-		else  //SEND BACK TO INDEX-FORMAT NOT CLEAN
+		//SEND BACK TO INDEX: FORMAT NOT CLEAN
+		else  
 		{
 			header('Location: index.php');
 		}
 	}
 
+	//LOGIN LOGIC
 	if (isset($_POST['action']) and $_POST['action'] == 'login')
 	{
-		//GRAB POST Variables
 		$_SESSION['function'] = 'login';
 
+		//GRAB POST Variables
 		$password = $_POST['email'];
 		$email = $_POST['email'];
 
@@ -101,13 +86,13 @@
 			if ($user_record['password'] != $password)
 			{
 				$error = "Password isn't valid, please re-enter";
-				array_push($errors, $error);
+				array_push($_SESSION['errors'], $error);
 			}
 		}
 		else
 		{
 			$error = "This user doesn't exist, please register above";
-			array_push($errors, $error);
+			array_push($_SESSION['errors'], $error);
 		}
 
 		if (isset($errors) )
@@ -119,5 +104,4 @@
 			header('Location: home.php');
 		}
 	}
-
  ?>

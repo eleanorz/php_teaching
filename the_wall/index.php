@@ -6,6 +6,7 @@
 <html>
 <head>
 	<title>login/registration</title>
+	<link rel="stylesheet" href="main.css">
 </head>
 <body>
 

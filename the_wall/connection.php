@@ -4,7 +4,7 @@
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', 'opensesame'); //set DB_PASS as 'root' if you're using mac
-define('DB_DATABASE', 'email_db'); //make sure to set your database
+define('DB_DATABASE', 'wall_db'); //make sure to set your database
 
 
 //connect to database host
