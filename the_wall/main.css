@@ -1,5 +1,32 @@
 *
 {
-	background-color: #FFE1A1;
 	color: navy;
+}
+
+body
+{
+	background-color: #FFE1A1;
+	width: 960px;
+}
+
+#logout
+{
+	float: right;
+	width: 100px;
+	margin-right: 250px;
+}
+
+.message
+{
+	width: 700px;
+	border: 3px solid green;
+	font-size: 17px;
+}
+
+.comment
+{
+	width: 400px;
+	margin-left: 200px;
+	border: 2px dotted black;
+	font-size: 12px;
 }

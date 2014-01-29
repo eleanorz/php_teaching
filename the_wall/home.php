@@ -11,8 +11,16 @@
  </head>
  <body>
 
+	<div id = "logout">
+		<form action="process.php" method = "post">
+			<input type="hidden" name="action" value="logout">
+			<input type="submit" value="log out of FaceSpace">
+		</form>
+	</div>
+
  	<?php 
- 		if ($_SESSION['function'] == 'registering')
+
+ 		if (isset($_SESSION['function']) && $_SESSION['function'] == 'registering')
  		{
  			echo "<h1> congratulations, you are now registered!</h1>";
  		}
@@ -21,37 +29,135 @@
  			echo "<h1> Welcome back !</h1>" ;
  		}
 
- 		echo "HERE ARE THE MESSAGES:";
+ 		?>
 
- 		$query1 = 'SELECT * FROM messages';
+ 		<form action="process.php" method="post">
+ 			<input type="hidden" name="action" value="new_msg">
+ 			<input type="text" name="comment">
+ 			<input type="submit" value="update status">
+ 		</form>
+
+ 		<?php
+
+ 		$query1 = 'SELECT * FROM messages order by idmessage DESC';
 
  		$messages = fetch_all($query1);
 
  		foreach ($messages as $key => $message)
  		{
- 			foreach ($message as $key => $value) {
-	 			switch ($key) {
+ 			display_message($message);
+ 		}
+
+ 		function display_message($message)
+ 		{
+ 			?><div class='message'><?php
+ 			foreach ($message as $key => $value) 
+ 			{
+	 			switch ($key)
+	 			{
 	 				case 'message':
 	 					echo "<h3>".$value."</h3>";
 	 					break;
 	 				
 	 				case 'idmessage':
 	 					echo $value;
+ 						delete_msg_button($value);
+	 					break;
+	 				case 'created_at':
+	 					fancy_date($value);
 	 					break;
 	 			}
  			}
+			?></div><?php
+
+			display_comments($message);
  		}
 
- 		echo "HERE ARE ALL COMMENTS:";
+ 		function fancy_date($date)
+ 		{	
+ 			$old_date = strtotime($date);
+ 			$today = date("F d");
+ 			echo $today;
+ 			$clean_date = date($old_date);
+ 			$formatted_date = date("F d", $clean_date);
 
- 		$query2 = 'SELECT * FROM comments';
- 		$comments = fetch_all($query2);
+ 			//if today, only show time
+ 			if ($formatted_date == $today)
+ 			{
+ 				echo "today";
+ 			}
+ 			
+ 			//if older than today, only display day of week and hour
+ 			else
+ 			{
+ 				echo "<br>".$formatted_date;
+ 			}
 
- 		foreach ($comments as $key => $comment)
+ 			//if older than a week, only display month/day
+ 		}
+
+ 		function display_comments($message)
  		{
- 			var_dump($comment);
+ 			$query = "SELECT * FROM comments WHERE message_id =".$message['idmessage'];
+ 			$comments = fetch_all($query);
+
+ 			?><div class='comment'><?php
+ 				foreach ($comments as $key => $comment)
+ 				{
+ 					display_one_comment($comment);
+ 				}
+ 			?></div><?php
+ 		}
+
+ 		function display_one_comment($comment)
+ 		{
+			echo "<p>";
+ 			foreach ($comment as $key => $value)
+ 			{
+	 			switch ($key) {
+	 				case 'comment':
+	 					echo $value;
+	 					break;	 				
+	 				case 'created_at':
+	 					echo $value;
+	 					break;
+	 				case 'user_id':
+	 					echo "  user id is: ".$value;
+	 					break;
+	 				case 'idcomment':
+	 					delete_comment_button($value);
+	 			}
+ 			}
+			echo "</p>";
+ 		}
+
+ 		function delete_msg_button($id)
+ 		{
+ 		?>
+ 			<form action="process.php" method="post">
+ 				<input type="hidden" name="action" value="delete_msg">
+ 				<input type="hidden" name="id" value="
+ 				<?php echo $id; ?>
+ 				">
+ 				<input type="submit" value="delete">
+ 			</form>
+ 		<?php
+ 		}
+
+ 		function delete_comment_button($id)
+ 		{
+ 		?>
+ 			<form action="process.php" method="post">
+ 				<input type="hidden" name="action" value="delete_comment">
+ 				<input type="hidden" name="id" value="
+ 				<?php echo $id; ?>
+ 				">
+ 				<input type="submit" value="delete">
+ 			</form>
+ 		<?php
  		}
  	 ?>
+
 
 
 

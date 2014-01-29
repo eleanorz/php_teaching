@@ -21,6 +21,8 @@
 	<h2>register!</h2>
 	<form action="process.php" method = "POST">
 		<input type="hidden" name = 'action' value = 'register'>
+		enter first name: <input type="text" name="first">
+		enter last name: <input type="text" name="last">
 		enter email: <input type="text" name = "email">
 		enter new password: <input type='password' name = 'password'>
 		confirm: <input type="password" name = 'confirm'>
