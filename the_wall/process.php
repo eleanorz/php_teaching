@@ -141,6 +141,9 @@
 		else
 		{
 			//set user id  for displaying correct comments
+			$_SESSION['user_id'] = $user_record['iduser'];
+			$_SESSION['first'] = $user_record['first_name'];
+			$_SESSION['last'] = $user_record['last_name'];
 			header('Location: home.php');
 		}
 

@@ -39,8 +39,7 @@
 
  		<?php
 
- 		$query1 = 'SELECT * FROM messages order by idmessage DESC';
-
+ 		$query1 = "SELECT * FROM messages LEFT JOIN users on messages.idusers=users.iduser order by messages.idmessage DESC";
  		$messages = fetch_all($query1);
 
  		foreach ($messages as $key => $message)
@@ -55,6 +54,17 @@
  			{
 	 			switch ($key)
 	 			{
+	 				case 'created_at':
+	 					echo "on ";
+	 					fancy_date($value);
+	 					echo ", ";
+	 					break;
+	 				case 'first_name':
+	 					echo " ".$value." ";
+	 					break;
+	 				case 'last_name':
+	 					echo $value." said: ";
+	 					break;
 	 				case 'message':
 	 					echo "<h3>".$value."</h3>";
 	 					break;
@@ -62,9 +72,6 @@
 	 				case 'idmessage':
 	 					echo $value;
  						delete_msg_button($value);
-	 					break;
-	 				case 'created_at':
-	 					fancy_date($value);
 	 					break;
 	 			}
  			}
