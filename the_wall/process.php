@@ -89,13 +89,16 @@
 		if (empty($_SESSION['errors']))
 		{
 			//inside success loop
-			$query3 = "INSERT into users (email, password, created_at) VALUES ('".$email."', 'password', NOW())";
+			$query3 = "INSERT into users (first_name, last_name, email, password, created_at) VALUES ('".$_POST['first']."','".$_POST['last']."','".$_POST['email']."','password', NOW())";
 			run_mysql_query($query3);
-			echo "new email added";
-		
+
+			$query4 = "SELECT * from users WHERE email='".$_POST['email']."'";
+			$temp = fetch_record($query4);
+	
 			header('Location: home.php');
 			die();
 		}
+
 		//SEND BACK TO INDEX: FORMAT NOT CLEAN
 		else  
 		{
@@ -112,7 +115,7 @@
 		$_SESSION['function'] = 'login';
 
 		//GRAB POST Variables
-		$password = $_POST['email'];
+		$password = $_POST['password'];
 		$email = $_POST['email'];
 
 		$query = "SELECT * from users WHERE email = '".$email."' ";

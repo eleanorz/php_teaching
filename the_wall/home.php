@@ -6,7 +6,7 @@
 
 <html>
  <head>
- 	<title>you made it!!</title>
+ 	<title>FaceSpace</title>
  	<link rel="stylesheet" href="main.css">
  </head>
  <body>
@@ -26,7 +26,7 @@
  		}
  		else
  		{
- 			echo "<h1> Welcome back !</h1>" ;
+ 			echo "<h1> Welcome back, ".$_SESSION['first']."</h1>";
  		}
 
  		?>
@@ -54,10 +54,9 @@
  			{
 	 			switch ($key)
 	 			{
-	 				case 'created_at':
-	 					echo "on ";
-	 					fancy_date($value);
-	 					echo ", ";
+	 				case 'idmessage':
+	 					echo $value;
+ 						delete_msg_button($value);
 	 					break;
 	 				case 'first_name':
 	 					echo " ".$value." ";
@@ -68,11 +67,12 @@
 	 				case 'message':
 	 					echo "<h3>".$value."</h3>";
 	 					break;
-	 				
-	 				case 'idmessage':
-	 					echo $value;
- 						delete_msg_button($value);
+	 				case 'created_at':
+	 					echo "on ";
+	 					fancy_date($value);
+	 					echo ", ";
 	 					break;
+	 				
 	 			}
  			}
 			?></div><?php
@@ -84,7 +84,6 @@
  		{	
  			$old_date = strtotime($date);
  			$today = date("F d");
- 			echo $today;
  			$clean_date = date($old_date);
  			$formatted_date = date("F d", $clean_date);
 
@@ -97,7 +96,7 @@
  			//if older than today, only display day of week and hour
  			else
  			{
- 				echo "<br>".$formatted_date;
+ 				echo $formatted_date;
  			}
 
  			//if older than a week, only display month/day
@@ -109,6 +108,7 @@
  			$comments = fetch_all($query);
 
  			?><div class='comment'><?php
+ 				reply();
  				foreach ($comments as $key => $comment)
  				{
  					display_one_comment($comment);
@@ -121,7 +121,8 @@
 			echo "<p>";
  			foreach ($comment as $key => $value)
  			{
-	 			switch ($key) {
+	 			switch ($key)
+	 			{
 	 				case 'comment':
 	 					echo $value;
 	 					break;	 				
@@ -136,6 +137,18 @@
 	 			}
  			}
 			echo "</p>";
+ 		}
+
+ 		function reply()
+ 		{
+ 			?> 
+				<form action="process.php" method="post">
+					<input type="hidden" name="action" value="reply">
+					<input type="hidden" name="user_id" value="">
+					<input type="text" name="content">
+					<input type="submit" value="reply">
+				</form>
+ 			<?php
  		}
 
  		function delete_msg_button($id)

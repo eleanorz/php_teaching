@@ -5,7 +5,7 @@
 
 <html>
 <head>
-	<title>login/registration</title>
+	<title>FaceSpace Login</title>
 	<link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -19,23 +19,27 @@
 	?>
 
 	<h2>register!</h2>
-	<form action="process.php" method = "POST">
-		<input type="hidden" name = 'action' value = 'register'>
-		enter first name: <input type="text" name="first">
-		enter last name: <input type="text" name="last">
-		enter email: <input type="text" name = "email">
-		enter new password: <input type='password' name = 'password'>
-		confirm: <input type="password" name = 'confirm'>
-		<input type="submit" value = 'register me!'>
-	</form>
+	<div class="index">		
+		<form action="process.php" method = "POST">
+			<input type="hidden" name = 'action' value = 'register'>
+			enter first name: <input type="text" name="first"> <br>
+			enter last name: <input type="text" name="last"> <br>
+			enter email: <br> <input type="text" name = "email"> <br>
+			enter new password: <br> <input type='password' name = 'password'> <br>
+			confirm: <br><input type="password" name = 'confirm'> <br>
+			<input type="submit" value = 'register me!'>
+		</form>
+	</div>
 
 	<h2>login!</h2>
-	<form action="process.php" method = "POST">
-		<input type="hidden" name = 'action' value = 'login'>
-		email: <input type="text" name="email">
-		password: <input type="password" name="password">
-		<input type="submit" value = 'Login'>
-	</form>
+	<div class="index">
+		<form action="process.php" method = "POST">
+			<input type="hidden" name = 'action' value = 'login'>
+			email: <br><input type="text" name="email"> <br>
+			password: <br><input type="password" name="password"> <br>
+			<input type="submit" value = 'Login'>
+		</form>		
+	</div>
 
 </body>
 </html>
