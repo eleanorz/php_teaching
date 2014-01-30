@@ -10,8 +10,7 @@
 </head>
 <body>
 
-	<?php 
-
+	<?php
 		if (isset($_SESSION['errors']) )
 		{
 			var_dump( $_SESSION['errors']);
