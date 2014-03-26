@@ -7,6 +7,8 @@
 	if (isset($_POST['action']) and $_POST['action'] == 'register')
 	{
 		register_user();
+		header('Location: home.php');
+		die();
 	}
 
 	if (isset($_POST['action']) and $_POST['action'] == 'login')
@@ -23,6 +25,7 @@
 	{
 		new_msg();
 		header("Location: home.php");
+		die();
 	}
 
 	if (isset($_POST['action']) and $_POST['action'] == 'reply')
@@ -101,18 +104,19 @@
 
 			$query4 = "SELECT * from users WHERE email='".$_POST['email']."'";
 			$temp = fetch_record($query4);
-	
-			header('Location: home.php');
-			die();
+
+			//set user id  for displaying correct comments
+			$_SESSION['user_id'] = $temp['iduser'];
+			$_SESSION['first'] = $temp['first_name'];
+			$_SESSION['last'] = $temp['last_name'];
 		}
 
 		//SEND BACK TO INDEX: FORMAT NOT CLEAN
 		else  
 		{
 			header('Location: index.php');
+			die();
 		}
-
-		die();
 	}
 
 	function login_user()
@@ -183,8 +187,7 @@
 	function delete_msg($id)
 	{
 		$query = "DELETE FROM messages WHERE idmessage=".$id;
-		var_dump($query);
-		die();
+		run_mysql_query($query);
 	}
 
 	function delete_comment($id)

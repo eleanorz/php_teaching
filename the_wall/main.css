@@ -11,7 +11,8 @@ h1
 
 body
 {
-	background-image: url('background.jpg'); 
+/*	background-image: url('background.jpg'); */
+	background-color: #048BCD;
 	width: 960px;
 	margin-left: 200px;
 	font-family: sans-serif;
@@ -28,8 +29,8 @@ body
 {
 	padding: 30px;
 	width: 700px;
-	border: 3px solid green;
-	font-size: 17px;
+/*	border: 3px solid green;
+*/	font-size: 17px;
 	background-color: white;
 	opacity: .8;
 }
@@ -42,6 +43,11 @@ body
 	font-size: 12px;
 	background-color: gray;
 	opacity: .6;
+}
+
+.date
+{
+	font-size: 7px;
 }
 
 .index form

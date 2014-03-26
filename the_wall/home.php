@@ -1,11 +1,11 @@
 <?php 
 	session_start();
 	require_once('connection.php');
-	var_dump($_SESSION);
  ?>
 
 <html>
  <head>
+ 	<!-- This would be the main page only accessible to the user after going through index.php for login -->
  	<title>FaceSpace</title>
  	<link rel="stylesheet" href="main.css">
  </head>
@@ -18,11 +18,10 @@
 		</form>
 	</div>
 
- 	<?php 
-
+ 	<?php
  		if (isset($_SESSION['function']) && $_SESSION['function'] == 'registering')
  		{
- 			echo "<h1> congratulations, you are now registered!</h1>";
+ 			echo "<h1> Congratulations, ".ucfirst($_SESSION['first']).", you are now registered!</h1>";
  		}
  		else
  		{
@@ -35,7 +34,7 @@
 		 		<form action="process.php" method="post">
 		 			<input type="hidden" name="id" value=<?php echo "'".$_SESSION['user_id']."'"; ?> >
 		 			<input type="hidden" name="action" value="new_msg">
-		 			<input type="text area" name="message">
+		 			<input type="textarea" name="message">
 		 			<input type="submit" value="update status">
 		 		</form> 			
  			<?php
@@ -52,18 +51,23 @@
  		function display_message($message)
  		{
  			?><div class='message'><?php
- 			echo fancy_date($message['created_at'])." ".$message['first_name']." ".$message['last_name']." said: ".$message['message']."<br>";
- 			?></div><?php
-
+ 			echo fancy_date($message['created_at'])." ".$message['first_name']." ".$message['last_name']." said: <br>".$message['message']."<br>";
+			
+			//only let the author delete
 			if ($message['iduser'] == $_SESSION['user_id'])
 			{
  				delete_msg_button($message['idmessage']);
 			}
 
+			//put the reply button inside the message div
+ 			reply($_SESSION['user_id'], $message['idmessage']);
+
+ 			?></div><?php
+
 			display_comments($message);
  		}
 
- 		function fancy_date($date)
+ 		function fancy_date($date) //prints out a formatted version of a date var
  		{	
  			$old_date = strtotime($date);
  			$today = date("F d");
@@ -76,23 +80,20 @@
  				echo "today";
  			}
  			
- 			//if older than today, only display day of week and hour
+ 			//if older than today, show month/day
  			else
  			{
  				echo $formatted_date;
  			}
-
- 			//if older than a week, only display month/day
  		}
 
- 		function display_comments($message)
+ 		function display_comments($message) //iterates through the comments table for a given message and prints thm out
  		{
  			$query = "SELECT * FROM comments LEFT JOIN users on comments.user_id=users.iduser WHERE message_id =".$message['idmessage'];
  			
  			$comments = fetch_all($query);
 
  			?><div class='comment'><?php
- 				reply($_SESSION['user_id'], $message['idmessage']);
  				foreach ($comments as $key => $comment)
  				{
  					display_one_comment($comment);
@@ -100,7 +101,7 @@
  			?></div><?php
  		}
 
- 		function display_one_comment($comment)
+ 		function display_one_comment($comment) //formatting for one specicic comment
  		{
  			echo "<p>".$comment['updated_at']." ".$comment['first_name']." ".$comment['last_name']." said: <br>".$comment['comment'];
 

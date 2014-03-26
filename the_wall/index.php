@@ -5,6 +5,7 @@
 
 <html>
 <head>
+	<!-- This page is would be the splash page which either blocks user or allows them to pass to the home.php -->
 	<title>FaceSpace Login</title>
 	<link rel="stylesheet" href="main.css">
 </head>
@@ -13,12 +14,15 @@
 	<?php
 		if (isset($_SESSION['errors']) )
 		{
-			var_dump( $_SESSION['errors']);
+			foreach ($_SESSION['errors'] as $key => $value)
+			{
+				echo $value."<br>"; //tell the user what is wrong with the form
+			}
 		}
 	?>
 
 	<h2>register!</h2>
-	<div class="index">		
+	<div class="index">		<!-- Registration form -->
 		<form action="process.php" method = "POST">
 			<input type="hidden" name = 'action' value = 'register'>
 			enter first name: <input type="text" name="first"> <br>
@@ -31,7 +35,7 @@
 	</div>
 
 	<h2>login!</h2>
-	<div class="index">
+	<div class="index">   <!-- login form -->
 		<form action="process.php" method = "POST">
 			<input type="hidden" name = 'action' value = 'login'>
 			email: <br><input type="text" name="email"> <br>
@@ -39,7 +43,6 @@
 			<input type="submit" value = 'Login'>
 		</form>		
 	</div>
-
 </body>
 </html>
 
